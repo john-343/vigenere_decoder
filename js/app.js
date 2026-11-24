@@ -63,6 +63,21 @@ button.addEventListener("click", async () => {
         console.log("Structured results:", result);
         
         results.textContent = pythonOutput;
+
+const graphContainer = document.getElementById("graph-container");
+graphContainer.innerHTML = "";
+
+if (result.plot) {
+    const graph = document.createElement("img");
+    graph.src = `data:image/png;base64,${result.plot}`;
+    graph.alt = "Frequency analysis graph";
+    graph.style.width = "100%";
+    graph.style.maxWidth = "900px";
+
+    graphContainer.appendChild(graph);
+} else {
+    graphContainer.textContent = "No graph available.";
+}
         
         const decryptedText = document.getElementById("decrypted-text");
         decryptedText.innerHTML = "";
