@@ -2,7 +2,8 @@
 # Python cryptanalysis implementation
 
 
-
+import base64
+import io
 import collections
 import itertools
 import math
@@ -148,7 +149,12 @@ def analyze_ciphertext(ciphertext):
   
       plt.suptitle(f'Vigenère Bin Frequency Plots: Shape Comparison (Key Length = {matching_key_length})\n(Note: X-Axis contains top Cipher character in Blue and top English character in Red)', fontsize=13, fontweight='bold', y=1.002)
       plt.tight_layout()
-      plt.show()
+      #plt.show()
+      image_buffer = io.BytesIO()
+      plt.savefig(image_buffer, format="png", bbox_inches="tight")
+      image_buffer.seek(0)
+      plot_base64 = base64.b64encode(image_buffer.read()).decode("utf-8")
+      plt.close(fig)
   
       # --- 3. PRINT TOP CANDIDATES AND KEY GUESS ASSEMBLY ---
       print("\n" + "="*40)
@@ -171,8 +177,8 @@ def analyze_ciphertext(ciphertext):
   # --- 1. LOAD TETRAGRAM DATA DIRECTLY FROM LOCAL FILE ---
   
   
-local_filename = "/english_quadgrams.txt"
-quadgrams = {}
+  local_filename = "/english_quadgrams.txt"
+  quadgrams = {}
   
   try:
       with open(local_filename, "r") as file:
@@ -259,12 +265,22 @@ quadgrams = {}
   for rank, (score, key, _) in enumerate(all_keys_scored[:10], 1):
       print(f"Rank #{rank:2}: Key = {key} | Score = {score:.2f}")
   
-  print("\n" + "="*60)
-  print("DECRYPTED TEXT FOR THE TOP 5 KEYS")
-  print("="*60)
+    top_results = []
+
   for rank, (score, key, decrypted) in enumerate(all_keys_scored[:5], 1):
-      print(f"\n--- RANK #{rank} | KEY: {key} | Score: {score:.2f} ---")
-      print(decrypted[:400] + "...")
+      top_results.append({
+          "rank": rank,
+          "key": key,
+          "score": round(score, 2),
+          "decrypted_text": decrypted[:400]
+      })
+
+  return {
+      "key_length": key_len,
+      "analyzed_candidates": len(all_keys_scored),
+      "plot": plot_base64,
+      "results": top_results
+  }
 
 
 
