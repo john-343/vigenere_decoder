@@ -5,7 +5,14 @@ async function loadPython() {
     console.log("Python is ready!");
 }
 
-loadPython();
+loadPython().then(async () => {
+    const response = await fetch("english_quadgrams.txt");
+    const quadgramText = await response.text();
+
+    pyodide.FS.writeFile("/english_quadgrams.txt", quadgramText);
+
+    console.log("Quadgram dataset loaded!");
+});
 
 const button = document.getElementById("decrypt-button");
 const ciphertextInput = document.getElementById("ciphertext");
