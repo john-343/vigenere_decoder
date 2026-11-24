@@ -1,3 +1,12 @@
+let pyodide = null;
+
+async function loadPython() {
+    pyodide = await loadPyodide();
+    console.log("Python is ready!");
+}
+
+loadPython();
+
 const button = document.getElementById("decrypt-button");
 const ciphertextInput = document.getElementById("ciphertext");
 const results = document.getElementById("results");
