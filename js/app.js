@@ -11,7 +11,7 @@ const button = document.getElementById("decrypt-button");
 const ciphertextInput = document.getElementById("ciphertext");
 const results = document.getElementById("results");
 
-button.addEventListener("click", () => {
+button.addEventListener("click", async () => {
     const ciphertext = ciphertextInput.value.trim();
 
     if (!ciphertext) {
