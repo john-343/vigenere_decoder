@@ -61,8 +61,29 @@ button.addEventListener("click", async () => {
 
         console.log("Python output:", pythonOutput);
         console.log("Structured results:", result);
-
+        
         results.textContent = pythonOutput;
+        
+        const decryptedText = document.getElementById("decrypted-text");
+        decryptedText.innerHTML = "";
+
+        if (result.results && result.results.length > 0) {
+            result.results.forEach(item => {
+                const entry = document.createElement("div");
+
+                const heading = document.createElement("h3");
+                heading.textContent = `#${item.rank} — Key: ${item.key} (Score: ${item.score})`;
+
+                const text = document.createElement("pre");
+                text.textContent = item.decrypted_text;
+
+                entry.appendChild(heading);
+                entry.appendChild(text);
+                decryptedText.appendChild(entry);
+            });
+        } else {
+            decryptedText.textContent = "No decrypted results available.";
+        }
 
     } catch (error) {
         results.textContent = "Error: " + error.message;
