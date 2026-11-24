@@ -265,7 +265,7 @@ def analyze_ciphertext(ciphertext):
   for rank, (score, key, _) in enumerate(all_keys_scored[:10], 1):
       print(f"Rank #{rank:2}: Key = {key} | Score = {score:.2f}")
   
-    top_results = []
+  top_results = []
 
   for rank, (score, key, decrypted) in enumerate(all_keys_scored[:5], 1):
       top_results.append({
