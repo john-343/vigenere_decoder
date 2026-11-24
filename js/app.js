@@ -12,6 +12,12 @@ loadPython().then(async () => {
     pyodide.FS.writeFile("/english_quadgrams.txt", quadgramText);
 
     console.log("Quadgram dataset loaded!");
+    const pythonResponse = await fetch("python/decrypt.py");
+    const pythonCode = await pythonResponse.text();
+
+    pyodide.runPython(pythonCode);
+
+    console.log("Decryption algorithm loaded!");
 });
 
 const button = document.getElementById("decrypt-button");
