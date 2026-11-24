@@ -1,7 +1,14 @@
 let pyodide = null;
+let pythonOutput = "";
+
+function capturePythonOutput(text) {
+    pythonOutput += text;
+}
 
 async function loadPython() {
-    pyodide = await loadPyodide();
+    pyodide = await loadPyodide({
+        stdout: capturePythonOutput
+    });
     console.log("Python is ready!");
 }
 
@@ -35,5 +42,30 @@ button.addEventListener("click", async () => {
         return;
     }
 
-    results.textContent = "Ciphertext received. Python integration coming next!";
+    if (!pyodide) {
+        results.textContent = "Python is still loading. Please wait.";
+        return;
+    }
+
+    pythonOutput = "";
+
+    try {
+        const pythonFunction = pyodide.globals.get("analyze_ciphertext");
+        const pythonResult = pythonFunction(ciphertext);
+
+        const result = pythonResult.toJs({
+            dict_converter: Object.fromEntries
+        });
+
+        pythonResult.destroy();
+
+        console.log("Python output:", pythonOutput);
+        console.log("Structured results:", result);
+
+        results.textContent = pythonOutput;
+
+    } catch (error) {
+        results.textContent = "Error: " + error.message;
+        console.error(error);
+    }
 });
