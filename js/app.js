@@ -10,8 +10,11 @@ loadPython().then(async () => {
     const quadgramText = await response.text();
 
     pyodide.FS.writeFile("/english_quadgrams.txt", quadgramText);
-
     console.log("Quadgram dataset loaded!");
+    
+    await pyodide.loadPackage("matplotlib");
+    console.log("Matplotlib loaded!");
+    
     const pythonResponse = await fetch("python/decrypt.py");
     const pythonCode = await pythonResponse.text();
 
