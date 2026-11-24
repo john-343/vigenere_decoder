@@ -4,9 +4,11 @@
 
 
 import collections
-import matplotlib.pyplot as plt
-import pandas as pd
+import itertools
+import math
 import string
+
+import matplotlib.pyplot as plt
 
 english_freqs = {
     'A': 8.167, 'B': 1.492, 'C': 2.782, 'D': 4.253, 'E': 12.702, 'F': 2.228,
@@ -69,7 +71,8 @@ def analyze_ciphertext(ciphertext):
           found_bins = test_bins
   
   html_output += "</pre>"
-  
+  if matching_key_length is None:
+    return {"error": "Could not identify a suitable key length."}
   
   # --- 2. MAKE RELATIVE FREQUENCY PLOTS FOR SELECTED CONFIGURATION ---
   if matching_key_length is not None:
@@ -166,11 +169,10 @@ def analyze_ciphertext(ciphertext):
           print(f"Guess #{r+1}: {key_guess}")
   
   # --- 1. LOAD TETRAGRAM DATA DIRECTLY FROM LOCAL FILE ---
-  import math
-  import itertools
   
-  local_filename = "english_quadgrams.txt"
-  quadgrams = {}
+  
+local_filename = "/english_quadgrams.txt"
+quadgrams = {}
   
   try:
       with open(local_filename, "r") as file:
