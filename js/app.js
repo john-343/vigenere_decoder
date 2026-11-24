@@ -12,4 +12,3 @@ button.addEventListener("click", () => {
 
     results.textContent = "Ciphertext received. Python integration coming next!";
 });
-
