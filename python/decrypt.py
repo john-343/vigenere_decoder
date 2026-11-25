@@ -286,6 +286,7 @@ def analyze_ciphertext(ciphertext):
 
   return {
       "key_length": key_len,
+      "key_length_analysis": key_length_analysis,
       "analyzed_candidates": len(all_keys_scored),
       "plot": plot_base64,
       "results": top_results
