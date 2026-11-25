@@ -42,3 +42,25 @@ button:hover {
     line-height: 1.5;
 }
 
+#key-length-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+}
+
+#key-length-table th,
+#key-length-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+#key-length-table th {
+    background-color: #2457a7;
+    color: white;
+}
+
+#key-length-table tr:nth-child(even) {
+    background-color: #f0f0f0;
+}
