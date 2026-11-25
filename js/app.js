@@ -63,7 +63,36 @@ button.addEventListener("click", async () => {
         console.log("Structured results:", result);
         
         results.textContent = pythonOutput;
+const keyLengthTable = document.getElementById("key-length-table");
+keyLengthTable.innerHTML = "";
 
+if (result.key_length_analysis) {
+    const table = document.createElement("table");
+
+    const header = table.insertRow();
+
+    ["Key Length", "Matching Bins", "Total Bins", "Percentage"].forEach(label => {
+        const th = document.createElement("th");
+        th.textContent = label;
+        header.appendChild(th);
+    });
+
+    result.key_length_analysis.forEach(item => {
+        const row = table.insertRow();
+
+        [
+            item.key_length,
+            item.matching_bins,
+            item.total_bins,
+            item.percentage + "%"
+        ].forEach(value => {
+            const cell = row.insertCell();
+            cell.textContent = value;
+        });
+    });
+
+    keyLengthTable.appendChild(table);
+}
 const graphContainer = document.getElementById("graph-container");
 graphContainer.innerHTML = "";
 
