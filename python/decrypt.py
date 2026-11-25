@@ -29,6 +29,7 @@ def analyze_ciphertext(ciphertext):
   sorted_english_vals = [english_freqs[c] for c in sorted_english_chars]
   
   # --- 1. FREQUENCY ANALYSIS & DETERMINING SUITABLE BINS (UP TO 40) ---
+  key_length_analysis = []
   matching_key_length = None
   found_bins = None
   
@@ -45,7 +46,7 @@ def analyze_ciphertext(ciphertext):
           bin_chars = test_bins[bin_idx]
           if not bin_chars:
               continue
-  
+      
           counts = collections.Counter(bin_chars)
           total_chars = len(bin_chars)
           pcts = [(counts.get(char, 0) / total_chars) * 100 for char in alphabet]
@@ -57,6 +58,14 @@ def analyze_ciphertext(ciphertext):
               matching_bins_count += 1
   
       ratio = matching_bins_count / k
+      
+      key_length_analysis.append({
+          "key_length": k,
+          "matching_bins": matching_bins_count,
+          "total_bins": k,
+          "percentage": round(ratio * 100, 1)
+      })
+      
       bold_condition = ratio > 0.5
   
       line = f"Bins: {k:<2} | Matching condition: {matching_bins_count} out of {k} ({ratio*100:.1f}%)"
